@@ -9,4 +9,8 @@ I created this project as a practice and meanwhile hoping to create some tools t
 
 - Another plan is to use fasta data from NCBI to automaticly generate sequence with position and mark out the transcription starting point, exon ,introns and UTR. This is merely just a thought, I may work on this after **CAPS Finder** is done.
 
-#2020/01/15
+
+
+      My e-mail:  zhu.xingyu.r1@dc.tohoku.ac.jp
+
+  #2020/01/15
