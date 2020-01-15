@@ -1,0 +1,70 @@
+#Still under progress
+
+import re
+
+Enzymes = {'AatII': 'GACGTC', 'AccII': 'CGCG', 'AfaI': 'GTAC', 'AflII': 'CTTAAG', 'AluI': 'AGCT', 'ApaI': 'GGGCCC',
+           'ApaLI': 'GTGCAC', 'BamHI': 'GGATCC', 'BcnI': 'PASS', 'BglII': 'AGATCT', 'BlnI': 'CCTAGG',
+           'Bsp1407I': 'TGTACA', 'BspT104I': 'TTCGAA', 'DdeI': 'PASS', 'DpnI': 'PASS', 'DraI': 'TTTAAA',
+           'E.T14I': 'PASS', 'EcoO109I': 'PASS', 'EcoRI': 'GAATTC', 'EcoRV': 'GATATC', 'FokI': 'PASS',
+           'HaeIII': 'GGCC', 'HapII': 'CCGG', 'HhaI': 'GCGC', 'HincII': 'PASS', 'HindIII': 'AAGCTT', 'HinfI': 'PASS',
+           'HpaI': 'GTTAAC', 'KpnI': 'GGTACC', 'MboI': 'GATC', 'MboII': 'PASS', 'McrBC': 'PASS', 'MluI': 'ACGCGT',
+           'MspI': 'CCGG', 'NcoI': 'CCATGG', 'NdeI': 'CATATG', 'NheI': 'GCTAGC', 'NlaIII': 'CATG', 'NotI': 'GCGGCCGC',
+           'NruI': 'TCGCGA', 'PshBI': 'ATTAAT', 'Psp1406I': 'AACGTT', 'PstI': 'CTGCAG', 'PvuI': 'CGATCG',
+           'PvuII': 'CAGCTG', 'SacI': 'GAGCTC', 'SacII': 'CCGCGG', 'SalI': 'GTCGAC', 'ScaI': 'AGTACT', 'SmaI': 'CCCGGG',
+           'SmiI': 'ATTTAAAT', 'SpeI': 'ACTAGT', 'SphI': 'GCATGC', 'SseI': 'CCTGCAGG', 'SspI': 'AATATT',
+           'StuI': 'AGGCCT', 'TaqI': 'TCGA', 'XbaI': 'TCTAGA', 'XhoI': 'CTCGAG', 'XspI': 'CTAG'}
+# 记录本研究室所有的酵素以及所使用的Buffer,PASS的部分需要确认
+Buffers = {'AatII': 'T_Buffer', 'AccII': 'M_Buffer', 'AfaI': 'T_Buffer', 'AflII': 'M_Buffer', 'AluI': 'L_Buffer',
+           'ApaI': 'L_Buffer', 'ApaLI': 'L_Buffer', 'BamHI': 'K_Buffer', 'BcnI': 'Basal', 'BglII': 'H_Buffer',
+           'BlnI': 'K_Buffer', 'Bsp1407I': 'T_Buffer', 'BspT104I': 'L_Buffer', 'DdeI': 'K_Buffer', 'DpnI': 'T_Buffer',
+           'DraI': 'M_Buffer', 'E.T14I': 'H_Buffer', 'EcoO109I': 'L_Buffer', 'EcoRI': 'H_Buffer', 'EcoRV': 'H_Buffer',
+           'HinfI': 'H_Buffer', 'HpaI': 'K_Buffer', 'KpnI': 'L_Buffer', 'MboI': 'K_Buffer', 'MboII': 'L_Buffer',
+           'McrBC': 'Basal', 'MluI': 'H_Buffer', 'MspI': 'T_Buffer', 'NcoI': 'K_Buffer', 'NdeI': 'H_Buffer',
+           'NheI': 'M_Buffer', 'NlaIII': 'NEB', 'NotI': 'H_Buffer', 'NruI': 'Basal', 'PshBI': 'Basal',
+           'Psp1406I': 'T_Buffer', 'PstI': 'H_Buffer', 'PvuI': 'K_Buffer', 'PvuII': 'M_Buffer', 'SacI': 'L_Buffer',
+           'SacII': 'T_Buffer', 'SalI': 'H_Buffer', 'ScaI': 'H_Buffer', 'SmaI': 'T_Buffer', 'SmiI': 'H_Buffer',
+           'SpeI': 'M_Buffer', 'SphI': 'H_Buffer', 'SseI': 'M_Buffer', 'SspI': 'Basal', 'StuI': 'M_Buffer',
+           'TaqI': 'Basal', 'XbaI': 'M_Buffer', 'XhoI': 'H_Buffer', 'XspI': 'K_Buffer'}
+
+
+# 每个酵素用的Buffer
+
+
+def finder(text, pattern):  # 寻找酵素序列，返回位置的列表
+    list = []
+
+    for match in re.finditer(pattern, text):
+        s = match.start()
+        e = match.end()
+        print('Found {!r} at {:d}:{:d}'.format(text[s:e], s, e))
+        list.append(s)
+    return list
+
+
+def reverse(text):  # 将序列反转，返回完全相反的序列字符串，输出大写
+    text = text[::-1]
+    dna = {"A": "T", "T": "A", "C": "G", "G": "C"}
+    rev = ""
+    for base in text:
+        rev += dna[base]
+    return rev
+
+
+text = input('Input sequence: ')
+newtext = filter(str.isalpha, text)
+text = ''.join(list(newtext))  # 去除非字母
+text = text.upper()  # 全部转换为大写
+rtext = reverse(text)
+sitelist = []
+n = 0
+# 开始寻找
+for Enzyme in Enzymes:
+    if Enzymes[Enzyme] in text or Enzyme in rtext:
+        n += 1
+        sitelist = finder(text, Enzymes[Enzyme])
+        print(Enzyme)
+        print(sitelist)  # 打印出要的数据
+    else:
+        continue
+
+print(str(n) + '　個使える酵素が見つかった！')
