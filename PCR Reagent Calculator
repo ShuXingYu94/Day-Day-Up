@@ -1,0 +1,31 @@
+import math
+
+
+
+def function(a=0, NTP=1.6, Buffer=10, Tag=0.4, T=20):
+    print(str(T - 3) + ' μL X ' + str(a + 1) + ' 倍\n' + str(a) + '個PCRチューブ(' + str(
+        math.ceil(a / 8)) + '組)を準備！\n以下は' + str(T - 3) + 'μLのPremix:')
+    NTP = round(NTP * (a + 1), 1)
+    Buffer = round(T * (a + 1) / Buffer, 1)
+    Tag = round(Tag * (a + 1), 1)
+    DDW = round((T - 3) * (a + 1) - NTP - Buffer - Tag, 1)
+    print('dNTPmix: ' + str(NTP) + ' μL')
+    print('Buffer : ' + str(Buffer) + ' μL')
+    print('Tag    : ' + str(Tag) + ' μL')
+    print('DDW    : ' + str(DDW) + ' μL')
+    print('---------------------------\nTotal  : ' + str(T) + ' μL')
+    return
+
+
+a: int = int(input('Number of sample(s): '))
+Check = input("Please input 'Y' if there's any change in Reagents:\nDefault: \n\tdNTPmix: 1.6 μL\n\tBuffer : 10 X "
+              "Buffer\n\tTag    : 1μL\nInput:")
+if Check == 'Y':
+    print("Please input amount of Reagents in the order of 'dNTPmix, times of concentration of Buffer, Tag, "
+          "Total' \n\tFor example:1.6 10 0.4 20")
+    x = input('Amount of Reagents: ')
+    xlist = x.split(' ')
+    xlist = [float(xlist[i]) for i in range(len(xlist))]
+    function(a, xlist[0], xlist[1], xlist[2], xlist[3])
+else:
+    function(a)
