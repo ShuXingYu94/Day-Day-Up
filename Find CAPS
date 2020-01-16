@@ -18,6 +18,7 @@ Buffers = {'AatII': 'T_Buffer', 'AccII': 'M_Buffer', 'AfaI': 'T_Buffer', 'AflII'
            'ApaI': 'L_Buffer', 'ApaLI': 'L_Buffer', 'BamHI': 'K_Buffer', 'BcnI': 'Basal', 'BglII': 'H_Buffer',
            'BlnI': 'K_Buffer', 'Bsp1407I': 'T_Buffer', 'BspT104I': 'L_Buffer', 'DdeI': 'K_Buffer', 'DpnI': 'T_Buffer',
            'DraI': 'M_Buffer', 'E.T14I': 'H_Buffer', 'EcoO109I': 'L_Buffer', 'EcoRI': 'H_Buffer', 'EcoRV': 'H_Buffer',
+           'FokI':'M_Buffer', 'HaeIII':'M_Buffer', 'HapII':'L_Buffer', 'HhaI':'M_Buffer', 'HincII':'M_Buffer', 'HindIII':'M_Buffer',
            'HinfI': 'H_Buffer', 'HpaI': 'K_Buffer', 'KpnI': 'L_Buffer', 'MboI': 'K_Buffer', 'MboII': 'L_Buffer',
            'McrBC': 'Basal', 'MluI': 'H_Buffer', 'MspI': 'T_Buffer', 'NcoI': 'K_Buffer', 'NdeI': 'H_Buffer',
            'NheI': 'M_Buffer', 'NlaIII': 'NEB', 'NotI': 'H_Buffer', 'NruI': 'Basal', 'PshBI': 'Basal',
@@ -36,7 +37,7 @@ def finder(text, pattern):  # 寻找酵素序列，返回位置的列表
     for match in re.finditer(pattern, text):
         s = match.start()
         e = match.end()
-        print('Found {!r} at {:d}:{:d}'.format(text[s:e], s, e))
+        print('Found {!r} at {:d} to {:d}'.format(text[s:e], s+1, e))
         list.append(s)
     return list
 
@@ -61,9 +62,10 @@ n = 0
 for Enzyme in Enzymes:
     if Enzymes[Enzyme] in text or Enzyme in rtext:
         n += 1
+        Buffer=Buffers[Enzyme]
+        print('Enzyme : '+Enzyme+'\nBuffer : '+Buffer)
         sitelist = finder(text, Enzymes[Enzyme])
-        print(Enzyme)
-        print(sitelist)  # 打印出要的数据
+        print('\n')
     else:
         continue
 
