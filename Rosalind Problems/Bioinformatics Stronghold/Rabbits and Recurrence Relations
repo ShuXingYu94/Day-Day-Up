@@ -1,0 +1,10 @@
+# Given Positive integers n≤40 and k≤5. And return: The total number of rabbit pairs that will be present after n months, if we begin with 1 pair and in each generation, every pair of reproduction-age rabbits produces a litter of k rabbit pairs (instead of only 1 pair).
+
+n = int(input('n = '))
+k = int(input('k = '))
+
+numlist = [0, 1]
+
+for i in range(0,n-1):
+    numlist.append(k*numlist[i]+numlist[i+1])
+print(numlist[n])
