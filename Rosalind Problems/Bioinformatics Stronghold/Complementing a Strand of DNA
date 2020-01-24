@@ -1,0 +1,11 @@
+# Input a DNA sequence and get its complementing strand
+
+seq = input('Sequence = ')
+dna = dict()
+seq = seq[::-1]
+dna = {"A": "T", "T": "A", "C": "G", "G": "C"}
+rev = ""
+for base in seq:
+    rev += dna[base]
+
+print(rev)
