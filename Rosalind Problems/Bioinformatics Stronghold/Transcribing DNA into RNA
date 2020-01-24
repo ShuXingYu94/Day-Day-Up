@@ -1,0 +1,4 @@
+# Input a DNA sequence and get its RNA sequence.
+
+seq = input('Sequence = ')
+print(seq.replace('T','U'))
