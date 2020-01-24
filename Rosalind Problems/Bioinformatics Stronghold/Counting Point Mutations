@@ -1,0 +1,11 @@
+# Given a pair of sequence with equal length, and count the point mutaion between them.
+
+seq1 = input('Input Sequence No.1 : ')
+seq2 = input('Input Sequence No.2 : ')
+n = 0
+for i in range(0, len(seq1)):
+    if seq1[i] == seq2[i]:
+        continue
+    else:
+        n += 1
+print(n)
