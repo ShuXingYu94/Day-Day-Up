@@ -1,0 +1,18 @@
+# Input DNA sequence and motif sequence and find out the position of the motif within the given DNA.
+
+seq = input('Input DNA sequence : ')
+motif = input('Input motif sequence : ')
+
+list = []
+a = 0
+position = ''
+
+while True:
+    a = seq.find(motif, a)
+    if a == -1:
+        break
+    a += 1
+    list.append(a)
+for x in list:
+    position = position + str(x) + ' '
+print('Result : '+position.strip())
