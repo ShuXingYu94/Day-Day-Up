@@ -1,0 +1,13 @@
+# Input a sequence and get the numbers of A,T,G,C nucleotides in it.
+
+seq = input('Sequence=')
+
+Nuc = {'A': 0, 'T': 0, 'G': 0, 'C': 0}
+for nuc in seq:
+    if nuc in Nuc:
+        Nuc[nuc] += 1
+
+print('A : '+str(Nuc['A']))
+print('T : '+str(Nuc['T']))
+print('G : '+str(Nuc['G']))
+print('C : '+str(Nuc['C']))
