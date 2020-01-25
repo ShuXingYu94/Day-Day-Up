@@ -1,4 +1,12 @@
 # day-day-up
+
+
+Recently I've found a really good way to learn python along with solving bioinformatic problems : [Rosalind Problems](http://rosalind.info/). By working out **python village** and **Bioinformatics Stronghold**, I can start accumulating little tools for future use. With **CAPS Finder** finished, I will be dedicated on solving Rosalind Challenges and update my progress in this Repository as a record for personal progress. Hope that I would become really good at Bioinformatics XD.
+
+ #2020/01/25
+ 
+---
+
 Just have been learning coding for a short time.  
 
 I created this project as a practice and meanwhile hoping to create some tools that everyone in our lab can use  in the future, hopefully :smile:.
