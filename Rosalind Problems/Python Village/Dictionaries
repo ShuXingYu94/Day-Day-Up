@@ -1,0 +1,13 @@
+# Calculate the number of occurrences of each word in a text.
+
+text = input('Input text : ')
+dict = {}
+list = text.split(' ')
+word: str
+for word in list:
+    if word not in dict:
+        dict[word] = 1
+    else:
+        dict[word] += 1
+for key, value in dict.items():
+    print(key+' '+str(value))
