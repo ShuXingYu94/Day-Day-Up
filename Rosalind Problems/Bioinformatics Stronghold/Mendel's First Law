@@ -1,0 +1,19 @@
+from itertools import product
+
+k = int(input('Input K : '))
+m = int(input('Input M : '))
+n = int(input('Input N : '))
+
+num = 0
+F0 = (['AA'] * k) + (['Aa'] * m) + (['aa'] * n)
+F1 = []
+
+for P1 in F0:
+    tmpP = F0[:]
+    tmpP.remove(P1)
+    for P2 in tmpP:
+        group = product(P1, P2)
+        F1.extend([''.join(i) for i in group])
+
+dominantF1 = filter(lambda txt: 'A' in txt, F1)
+print(len(list(dominantF1)) / len(F1))
