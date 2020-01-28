@@ -1,0 +1,44 @@
+FASTA = open('/Users/zhuxingyu/Desktop/rosalind_gc (2).txt')
+
+
+def readFASTA(FASTA):
+    Index = []
+    seq = []
+    n = 0
+    for i in FASTA:
+        if '>' in i and n == 0:
+            txt = ''
+            Index.append(i.replace('>', '').replace('\n', ''))  # replace('\n','')
+            n += 1
+        elif '>' in i and n > 0:
+            seq.append(txt)
+            txt = ''
+            Index.append(i.replace('>', '').replace('\n', ''))
+        else:
+            txt += i.strip()
+    seq.append(txt)
+    return seq, Index
+
+
+def computGC(Index, seq):
+    GC = {}
+    for n in range(0, len(Index)):
+        GCpercent = round((seq[n].count('G') + seq[n].count('C')) / len(seq[n])*100,3)
+        GC[Index[n]] = GCpercent
+    return GC
+
+
+def invert_dict(d):
+    return dict([(v, k) for (k, v) in d.items()])
+
+
+seq, Index = readFASTA(FASTA)
+# print(Index)
+# print(seq)
+GC = computGC(Index, seq)
+print(GC)
+GC_keys = invert_dict(GC)
+print(GC_keys)
+m=max(GC_keys)
+print(GC_keys[m])
+print(m)
