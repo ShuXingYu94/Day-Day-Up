@@ -1,0 +1,47 @@
+FASTA = open('/Users/**********/Desktop/test.txt')
+
+
+def readFASTA(FASTA):  # 已在toolkit
+    Index = []
+    seq = []
+    n = 0
+    for i in FASTA:
+        if '>' in i and n == 0:
+            txt = ''
+            Index.append(i.replace('>', '').replace('\n', ''))  # replace('\n','')
+            n += 1
+        elif '>' in i and n > 0:
+            seq.append(txt)
+            txt = ''
+            Index.append(i.replace('>', '').replace('\n', ''))
+        else:
+            txt += i.strip()
+    seq.append(txt)
+    return seq, Index
+
+
+seq, Index = readFASTA(FASTA)
+Acontent, Tcontent, Gcontent, Ccontent = [], [], [], []
+
+output = ''
+
+for i in range(len(seq[0])):
+    a = ''
+    for n in range(len(seq)):
+        a += seq[n][i]
+    Acontent.append(str(a.count('A')))
+    Ccontent.append(str(a.count('C')))
+    Gcontent.append(str(a.count('G')))
+    Tcontent.append(str(a.count('T')))
+    if max(a.count('A'), a.count('C'), a.count('G'), a.count('T')) == a.count('A'):
+        output += 'A'
+    elif max(a.count('A'), a.count('C'), a.count('G'), a.count('T')) == a.count('T'):
+        output += 'T'
+    elif max(a.count('A'), a.count('C'), a.count('G'), a.count('T')) == a.count('G'):
+        output += 'G'
+    else:
+        output += 'C'
+
+print(output)
+print('A: ' + ' '.join(map(str, Acontent)) + '\nC: ' + ' '.join(map(str, Ccontent)) + '\nG: ' + ' '.join(
+    map(str, Gcontent)) + '\nT: ' + ' '.join(map(str, Tcontent)))
