@@ -1,4 +1,4 @@
-FASTA = open('/Users/zhuxingyu/Desktop/rosalind_gc (2).txt')
+FASTA = open('/Users/***********/Desktop/rosalind_gc (2).txt')
 
 
 def readFASTA(FASTA):
