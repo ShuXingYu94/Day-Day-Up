@@ -1,0 +1,25 @@
+def offspring(a, b):
+    children=[]
+    for parent1 in a:
+        for parent2 in b:
+            children.append(parent1+parent2)
+    return children
+    
+# Start 
+
+n=input('Input numbers : ')
+nlist=n.split(' ')
+
+P1 = ['AA', 'AA', 'AA', 'Aa', 'Aa', 'aa']
+P2 = ['AA', 'Aa', 'aa', 'Aa', 'aa', 'aa']
+
+p=[]
+dominantF1=0
+
+for index in range(len(P1)):
+    childern=offspring(P1[index],P2[index])
+    dominant=filter(lambda t:'A' in t,childern)
+    p.append(len(list(dominant))/len(childern))
+    dominantF1+=int(nlist[index])*p[index]*2
+    
+print(dominantF1)
