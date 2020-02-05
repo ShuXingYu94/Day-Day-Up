@@ -1,0 +1,41 @@
+def readFASTA(FASTA):
+    index = []
+    seq = []
+    txt = ''
+    n = 0
+    for i in FASTA:
+        if '>' in i and n == 0:
+            index.append(i.replace('>', '').replace('\n', ''))  # replace('\n','')
+            n += 1
+        elif '>' in i and n > 0:
+            seq.append(txt)
+            txt = ''
+            index.append(i.replace('>', '').replace('\n', ''))
+        else:
+            txt += i.strip()
+    seq.append(txt)
+    return seq, index
+
+
+FASTA = open('/Users/*******/Desktop/test.txt')
+seqlist, index = readFASTA(FASTA)
+dna = {"A": "T", "T": "A", "C": "G", "G": "C"}
+rev = ""
+seq = seqlist[0]
+for base in seq:
+    rev += dna[base]
+print(seq, rev)
+
+forward = ''
+reverse = ''
+print(len(seq))
+for start in range(0, len(rev) - 3):
+    for length in range(4, 13):
+        if start + length > len(rev):
+            continue
+        forward = seq[start:start + length]
+        reverse = rev[start:start + length]
+        reverse = reverse[::-1]
+        if forward == reverse:
+            print(start + 1, length)
+            # print(forward, reverse)
