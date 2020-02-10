@@ -3,7 +3,7 @@ FASTA = open('/Users/***********/Desktop/rosalind_gc (2).txt')
 
 def readFASTA(FASTA):
     Index = []
-    seq = []
+    Seq = []
     n = 0
     for i in FASTA:
         if '>' in i and n == 0:
@@ -11,13 +11,13 @@ def readFASTA(FASTA):
             Index.append(i.replace('>', '').replace('\n', ''))  # replace('\n','')
             n += 1
         elif '>' in i and n > 0:
-            seq.append(txt)
+            Seq.append(txt)
             txt = ''
             Index.append(i.replace('>', '').replace('\n', ''))
         else:
             txt += i.strip()
-    seq.append(txt)
-    return seq, Index
+    Seq.append(txt)
+    return Seq, Index
 
 
 def computGC(Index, seq):
