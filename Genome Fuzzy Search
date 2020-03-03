@@ -1,0 +1,37 @@
+from fuzzywuzzy import fuzz
+
+FASTA = open('/Users/********/Desktop/*************chromosomes.fa.gz')
+
+
+def readFASTA(FASTA):
+    Index = []
+    Seq = []
+    n = 0
+    for i in FASTA:
+        if '>' in i and n == 0:
+            txt = ''
+            Index.append(i.replace('>', '').replace('\n', ''))  # replace('\n','')
+            n += 1
+        elif '>' in i and n > 0:
+            Seq.append(txt)
+            txt = ''
+            Index.append(i.replace('>', '').replace('\n', ''))
+        else:
+            txt += i.strip()
+    Seq.append(txt)
+    return Seq, Index
+
+
+seq, index = readFASTA(FASTA)
+print(index)
+
+tofind = 'CTTTGAATACTAAGCAGGAA'   # type in any target sequence
+print('A10_F : ' + tofind)
+for n in range(0, len(index)):
+    chr = seq[n]
+    for i in range(0, len(chr)):
+        if i + len(tofind) > len(chr):
+            continue
+        tmp = chr[i:i + len(tofind)]
+        if fuzz.ratio(tofind, tmp) > 90:    # percentage of sequence similarity
+            print(index[n] + ' :\n' + tmp)
