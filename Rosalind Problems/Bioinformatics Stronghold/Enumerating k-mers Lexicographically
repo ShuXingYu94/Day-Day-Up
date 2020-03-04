@@ -1,0 +1,11 @@
+# Just found itertools so useful XD.
+
+import itertools
+
+origin='A B C D E'
+num=4
+datalist=origin.split(' ')
+
+result=list(itertools.product(datalist,repeat=num))
+for unit in result:
+    print(''.join(unit))
