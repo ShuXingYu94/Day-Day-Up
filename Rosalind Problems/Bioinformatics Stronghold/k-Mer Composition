@@ -1,0 +1,44 @@
+import itertools
+
+
+def readFASTA(FASTA):
+    Index = []
+    Seq = []
+    n = 0
+    for i in FASTA:
+        if '>' in i and n == 0:
+            txt = ''
+            Index.append(i.replace('>', '').replace('\n', ''))  # replace('\n','')
+            n += 1
+        elif '>' in i and n > 0:
+            Seq.append(txt)
+            txt = ''
+            Index.append(i.replace('>', '').replace('\n', ''))
+        else:
+            txt += i.strip()
+    Seq.append(txt)
+    return Seq, Index
+
+
+FASTA = open('/Users/*********/Desktop/test.txt')
+seq,index=readFASTA(FASTA)
+seq=seq[0]
+
+nuclist = ['A', 'C', 'G', 'T']
+k_num = 4
+
+result = list(itertools.product(nuclist, repeat=k_num))
+comp = []
+for unit in result:
+    comp.append(''.join(unit))
+count = {}
+for unit in comp:
+    count[unit] = 0
+
+for startn in range(0,len(seq)-3):
+    tmp=seq[startn:startn+4]
+    if tmp in count:
+        count[tmp]+=1
+tmplist=[str(x) for x in list(count.values())]
+print(' '.join(tmplist))
+
