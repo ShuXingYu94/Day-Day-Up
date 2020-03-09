@@ -1,0 +1,39 @@
+FASTA = open('/Users/zhuxingyu/Desktop/test.txt')
+
+
+def readFASTA(FASTA):
+    Index = []
+    Seq = []
+    n = 0
+    for i in FASTA:
+        if '>' in i and n == 0:
+            txt = ''
+            Index.append(i.replace('>', '').replace('\n', ''))  # replace('\n','')
+            n += 1
+        elif '>' in i and n > 0:
+            Seq.append(txt)
+            txt = ''
+            Index.append(i.replace('>', '').replace('\n', ''))
+        else:
+            txt += i.strip()
+    Seq.append(txt)
+    return Seq, Index
+
+
+seqlist, indexlist = readFASTA(FASTA)
+seq = seqlist[0]
+motif = seqlist[1]
+print(seq, motif)
+st = 0
+result = []
+for nuc in motif:
+    st = seq.find(nuc, st)+1
+    result.append(str(st))
+    st+=1
+print(' '.join(result))
+
+
+# motiflist = []
+# for num in result:
+#     motiflist.append(seq[int(num)-1])
+# print(''.join(motiflist))
