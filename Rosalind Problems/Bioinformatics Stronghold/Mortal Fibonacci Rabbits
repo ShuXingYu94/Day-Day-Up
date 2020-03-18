@@ -1,0 +1,9 @@
+n=100
+m=16
+ages = [0] * m
+ages[-1] = 1
+for _ in range(1, n):
+  new_rabbits = sum(ages[:-1])
+  ages[:-1] = ages[1:]
+  ages[-1] = new_rabbits
+print(sum(ages))
