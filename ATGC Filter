@@ -1,0 +1,32 @@
+# While using NCBI, we sometimes encounter with:
+#        1 tcagacccgt gtatgaacga tattaagggc caaagttgct tctgttttcc agaaattttt
+#       61 gaaacccaat ttcagggcac gattccacaa cctctttctt ttcttctaga tctacgtaaa
+#      121 ttcatcagct agagattgaa aaatggcgga cggtgaagat attcagccgc tcgtttgcga
+#      181 taacgggact ggaatggtca aggctggttt tgcaggtgat gatgctccta gagctgtatt
+#      241 cccaagtatc gttggccgtc cacgtcacac gggagtgatg gttggaatgg gacaaaagga
+#      301 tgcatacgtc ggagacgagg cacagtcgaa acgtggtatc ttgactctca agtatccaat
+#      361 tgagcatggt attgtcaaca actgggatga tatggagaag atttggcatc acactttcta
+#      421 caatgagctg cgtgttgccc cggaagagca tccggttttg ctaaccgaag cgccgcttaa
+#      481 tccgaaggct aaccgtgaga agatgacaca gatcatgttt gaaacattca acactcctgc
+#      541 tatgtatgtt gccattcaag ctgttctctc cctctatgct agtggccgta ctactggtat
+#      601 tgttttggac tctggagatg gtgtgagcca cacggtacca atctacgagg gttatgcact
+#      661 tccacacgca atcctgcgtc ttgatcttgc aggtcgtgac ctaaccgacc acctcatgaa
+# To better cope with such kind of sequence, this little program can filter out ATCG string for, in my usual case, following alignment.
+
+FASTA = open('/Users/........./Desktop/test.txt')
+
+def readtext(txt):
+    tmp=[]
+    for line in txt:
+        tmp.append(line)
+    seq=''.join(tmp)
+    seq=seq.upper()
+    tmp=[]
+    for nuc in seq:
+        if nuc in ['A','T','G','C','U']:
+            tmp.append(nuc)
+    out=''.join(tmp)
+    return out
+
+a=readtext(FASTA)
+print(a)
