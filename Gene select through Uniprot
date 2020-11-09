@@ -1,0 +1,84 @@
+import pandas as pd
+import re
+
+# Hint for reading excel files
+# pd.read_excel(path, sheet_name=0, header=0, names=None, index_col=None,
+#               usecols=None, squeeze=False,dtype=None, engine=None,
+#               converters=None, true_values=None, false_values=None,
+#               skiprows=None, nrows=None, na_values=None, parse_dates=False,
+#               date_parser=None, thousands=None, comment=None, skipfooter=0,
+#               convert_float=True, **kwds)
+
+
+raw_gene = pd.read_excel('/Users/zhuxingyu/Desktop/uniprot-germination+tolerance+aba+salt.xlsx', sheet_name=0, header=0,
+                         index_col=[1], delim_whitespace=True)
+# Fill in Nan values
+raw_gene = raw_gene.fillna('Missing')
+# Exclude unnecessary columns
+nlist = [4, 5] + list(range(7, 13))
+gene = raw_gene.iloc[:, nlist]
+
+rowlist = list(gene.columns)
+with_salt = []
+with_germ = []
+with_ABA = []
+temp = []
+with_all = []
+
+# Choose rows related to salt
+for row in rowlist:
+    new = gene.loc[gene[row].str.contains('salt|salinity', flags=re.I, regex=True)]
+    with_salt += list(new.index)
+result_1 = []
+[result_1.append(i) for i in with_salt if not i in result_1]
+print('Contain salt : ', len(result_1), '\n', result_1, '\n')
+
+# Choose rows related to germination
+for row in rowlist:
+    new = gene.loc[gene[row].str.contains('germination|dormancy|germinate', flags=re.I, regex=True)]
+    with_germ += list(new.index)
+result_2 = []
+[result_2.append(i) for i in with_germ if not i in result_2]
+print('Contain germination : ', len(result_2), '\n', result_2, '\n')
+
+# Choose rows related to ABA
+for row in rowlist:
+    new = gene.loc[gene[row].str.contains('aba|abscisic acid', flags=re.I, regex=True)]
+    with_ABA += list(new.index)
+result_3 = []
+[result_3.append(i) for i in with_ABA if not i in result_3]
+print('Contain ABA : ', len(result_3), '\n', result_3, '\n')
+
+# Choose rows related to Transcription factor
+temp = []
+for row in rowlist:
+    new = gene.loc[gene[row].str.contains('transcription factor|transcriptional activator|regulation of '
+                                          'transcription|transcription regulator', flags=re.I,
+                                          regex=True)]
+    temp += list(new.index)
+result_4 = []
+[result_4.append(i) for i in temp if not i in result_4]
+print('Exclude trascription factor : ', len(result_4), '\n', result_4, '\n')
+
+# Choose rows related to ABA synthesis
+temp = []
+for row in rowlist:
+    new = gene.loc[
+        gene[row].str.contains('aba synthesis|abscisic acid synthesis|abscisic acid biosynthetic', flags=re.I,
+                               regex=True)]
+    temp += list(new.index)
+result_5 = []
+[result_5.append(i) for i in temp if not i in result_5]
+print('Exclude ABA synthesis : ', len(result_5), '\n', result_5, '\n')
+
+# Output final result
+with_all = set(result_1) & set(result_2) & set(result_3)
+retA = [i for i in with_all if i not in result_4]
+retB = [i for i in retA if i not in result_5]
+result_str = ' | '.join(retB)
+print('Result : ', len(retB), '\n', result_str)
+
+# Output as txt(csv) file
+df = gene.loc[retB]
+df.to_csv(path_or_buf='/Users/zhuxingyu/Desktop/selected_gene.txt', sep='\n', header=False,
+          line_terminator='\n-------------------------------\n')
