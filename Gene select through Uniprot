@@ -10,7 +10,7 @@ import re
 #               convert_float=True, **kwds)
 
 
-raw_gene = pd.read_excel('/Users/zhuxingyu/Desktop/uniprot-germination+tolerance+aba+salt.xlsx', sheet_name=0, header=0,
+raw_gene = pd.read_excel('file.xlsx', sheet_name=0, header=0,
                          index_col=[1], delim_whitespace=True)
 # Fill in Nan values
 raw_gene = raw_gene.fillna('Missing')
@@ -80,5 +80,5 @@ print('Result : ', len(retB), '\n', result_str)
 
 # Output as txt(csv) file
 df = gene.loc[retB]
-df.to_csv(path_or_buf='/Users/zhuxingyu/Desktop/selected_gene.txt', sep='\n', header=False,
+df.to_csv(path_or_buf='file.txt', sep='\n', header=False,
           line_terminator='\n-------------------------------\n')
