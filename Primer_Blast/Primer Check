@@ -1,0 +1,9 @@
+import primer3
+
+# Input FASTA
+seq=''
+print('Tm : ', primer3.calcTm(seq), '\n')
+print('Hairpin : ', primer3.calcHairpin(seq), '\n')
+print('Homo-dimer : ', primer3.calcHomodimer(seq), '\n')
+print('Hetero-dimer : ', primer3.calcHeterodimer(seq, FASTA), '\n')
+print('''3'_EndStability: ''', primer3.bindings.calcEndStability(seq, FASTA), '\n')
