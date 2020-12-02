@@ -1,0 +1,76 @@
+import xlwt
+import primer3
+import pandas as pd
+
+def readFASTA():
+    pass
+def primer_design():
+    pass
+
+# Input FASTA with biopython (with...)
+FASTA = '''>NC_000013.11:32315480-32399672 Homo sapiens chromosome 13, GRCh38.p12 Primary Assembly
+GTGGCGCGAGCTTCTGAAACTAGGCGGCAGAGGCGGAGCCGCTGTGGCACTGCTGCGCCTCTGCTGCGCC
+TCGGGTGTCTTTTGCGGCGGTGGGTCGCCGCCGGGAGAAGCGTGAGGGGACAGATTTGTGACCGGCGCGG
+TTTTTGTCAGCTTACTCCGGCCAAAAAAGAACTGCACCTCTGGAGCGGGTTAGTGGTGGTGGTAGTGGGT
+'''
+
+# Change parameters(necessary & optional)
+seq_args = {
+        'SEQUENCE_ID': 'BRCA2_SEGMENT',
+        'SEQUENCE_TEMPLATE': "GTGGCGCGAGCTTCTGAAACTAGGCGGCAGAGGCGGAGCCGCTGTGGCACTGCTGCGCCTCTGCTGCGCCTCGGGTGTCTTTTGCGGCGGTGGGTCGCCGCCGGGAGAAGCGTGAGGGGACAGATTTGTGACCGGCGCGGTTTTTGTCAGCTTACTCCGGCCAAAAAAGAACTGCACCTCTGGAGCGGGTTAGTGGTGGTGGTAGTGGGT",
+        'SEQUENCE_INCLUDED_REGION': [0,210],
+        'SEQUENCE_TARGET':[],
+        'SEQUENCE_EXCLUDED_REGION':[]
+}
+
+global_args = {
+        'PRIMER_OPT_SIZE': 20,
+        'PRIMER_PICK_INTERNAL_OLIGO': 1,
+        'PRIMER_INTERNAL_MAX_SELF_END': 8,
+        'PRIMER_MIN_SIZE': 18,
+        'PRIMER_MAX_SIZE': 25,
+        'PRIMER_OPT_TM': 60.0,
+        'PRIMER_MIN_TM': 57.0,
+        'PRIMER_MAX_TM': 63.0,
+        'PRIMER_MIN_GC': 20.0,
+        'PRIMER_MAX_GC': 80.0,
+        'PRIMER_MAX_POLY_X': 100,
+        'PRIMER_INTERNAL_MAX_POLY_X': 100,
+        'PRIMER_SALT_MONOVALENT': 50.0,
+        'PRIMER_DNA_CONC': 50.0,
+        'PRIMER_MAX_NS_ACCEPTED': 0,
+        'PRIMER_MAX_SELF_ANY': 12,
+        'PRIMER_MAX_SELF_END': 8,
+        'PRIMER_PAIR_MAX_COMPL_ANY': 12,
+        'PRIMER_PAIR_MAX_COMPL_END': 8,
+        'PRIMER_PRODUCT_SIZE_RANGE': [[75,100],[100,125],[125,150],[150,175],[175,200]],
+}
+
+# Get primers
+primer3_result = primer3.bindings.designPrimers(seq_args, global_args)
+
+# Turn result into readable dictionary ,into dataframe format
+primer3_result_table_dict = {}
+for i in range(primer3_result["PRIMER_PAIR_NUM_RETURNED"]):
+    primer_id = str(i)
+    for key in primer3_result:
+        if primer_id in key:
+            info_tag = key.replace("_" + primer_id, "")
+            try:
+                primer3_result_table_dict[info_tag]
+            except:
+                primer3_result_table_dict[info_tag] = []
+            finally:
+                primer3_result_table_dict[info_tag].append(primer3_result[key])
+
+index = []
+for i in range(primer3_result["PRIMER_PAIR_NUM_RETURNED"]):
+    index.append("PRIMER_PAIR_" + str(i))
+primer3_result_df = pd.DataFrame(primer3_result_table_dict, index=index)
+primer3_result_df = primer3_result_df.T
+
+# Optional: output as xls/txt
+# primer3_result_df.to_excel("primer3_result1.xls")
+# primer3_result_df.to_csv("primer3_result1.txt")
+
+print(primer3_result_df)
