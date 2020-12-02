@@ -1,0 +1,25 @@
+# Target terminal command:
+# blastn -query test.fasta -db Brassica_napus.fa -evalue 0.000001
+
+from Bio.Blast.Applications import NcbiblastnCommandline
+blastn_cline = NcbiblastnCommandline(query="test.fasta", db="Brassica_napus.fa", evalue=0.0001, outfmt=5, out="test.xml")
+print(blastn_cline)
+stdout, stderr = blastn_cline()
+
+from Bio.Blast import NCBIXML
+
+# Analysis of Blast result
+result_handle = open("test.xml")
+blast_record = NCBIXML.read(result_handle)  # Only one blast result
+
+E_VALUE_THRESH = 0.000001  # set E_value or other parameter and judge if exist
+for alignment in blast_record.alignments:
+    for hsp in alignment.hsps:
+        if hsp.expect < E_VALUE_THRESH:
+            print('****Alignment****')
+            print('sequence:', alignment.title)
+            print('length:', alignment.length)
+            print('e value:', hsp.expect)
+            print(hsp.query[0:75] + '...')
+            print(hsp.match[0:75] + '...')
+            print(hsp.sbjct[0:75] + '...')
